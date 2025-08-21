@@ -102,6 +102,18 @@
           }
         ],
         "folders": []
+      },
+      {
+        "name": "README",
+        "files": [
+          {
+            "path": "../../README/Global Variables.md"
+          },
+          {
+            "path": "../../README/README.md"
+          }
+        ],
+        "folders": []
       }
     ]
   },

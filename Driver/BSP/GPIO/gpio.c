@@ -3,10 +3,12 @@
 void GPIO_Init(void)
 {
     GPIO_InitTypeDef GPIO_InitStruct = {0};
-    
-    /* 使能GPIOB时钟 */
+
+    /* 开启AFIO时钟，禁用J-Link调试端口PB3，将其重映射为普通GPIO */
     __HAL_RCC_AFIO_CLK_ENABLE();
     __HAL_AFIO_REMAP_SWJ_NOJTAG();
+    
+    /* 使能GPIOB时钟 */   
     __HAL_RCC_GPIOB_CLK_ENABLE();
 
     /* 配置PB3引脚为输出模式 */

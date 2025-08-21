@@ -1,0 +1,1 @@
+1. **rxBuffer[]：**AT6558R GPS芯片发送的数据通过USART2和DMA1转运在缓冲区 rxBuffer[]中，

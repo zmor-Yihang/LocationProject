@@ -1,8 +1,8 @@
 #ifndef __DEBUG_H__
 #define __DEBUG_H__
 
-#include "stdio.h"
 #include "sys/sys.h"
+#include "stdio.h"
 #include "string.h"
 
 void DEBUG_Init(void);
