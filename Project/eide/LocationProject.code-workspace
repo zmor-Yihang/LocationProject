@@ -28,10 +28,17 @@
             "editor.insertSpaces": true,
             "editor.tabSize": 4,
             "editor.autoIndent": "advanced"
-        }
+        },
+        "cortex-debug.variableUseNaturalFormat": true
     },
     "extensions": {
         "recommendations": [
+        ]
+    },
+    "launch": {
+        "version": "0.2.0",
+        "configurations": [
+        
         ]
     }
 }

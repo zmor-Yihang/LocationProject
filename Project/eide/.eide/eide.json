@@ -52,6 +52,9 @@
               },
               {
                 "path": "../../Driver/HAL_Driver/Src/stm32f1xx_hal_i2c.c"
+              },
+              {
+                "path": "../../Driver/HAL_Driver/Src/stm32f1xx_hal_spi.c"
               }
             ],
             "folders": []
@@ -64,9 +67,43 @@
               },
               {
                 "path": "../../Driver/BSP/gpio/gpio.c"
+              },
+              {
+                "path": "../../Driver/BSP/I2C/i2c.c"
+              },
+              {
+                "path": "../../Driver/BSP/spi/spi.c"
               }
             ],
             "folders": []
+          },
+          {
+            "name": "chip",
+            "files": [
+              {
+                "path": "../../Driver/chip/at6558r/at6558r.c"
+              },
+              {
+                "path": "../../Driver/chip/ds3553/ds3553.c"
+              }
+            ],
+            "folders": [
+              {
+                "name": "lora",
+                "files": [
+                  {
+                    "path": "../../Driver/chip/LoRa/driver_llcc68_interface.c"
+                  },
+                  {
+                    "path": "../../Driver/chip/LoRa/driver_llcc68.c"
+                  },
+                  {
+                    "path": "../../Driver/chip/LoRa/lora.c"
+                  }
+                ],
+                "folders": []
+              }
+            ]
           }
         ]
       },
@@ -270,7 +307,8 @@
           "../../Driver/BSP",
           "../../Driver/HAL_Driver/Inc",
           ".cmsis/include",
-          "../RTE/_LocPro"
+          "../RTE/_LocPro",
+          "../../Driver/chip"
         ],
         "libList": [],
         "defineList": [

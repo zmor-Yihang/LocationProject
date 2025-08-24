@@ -11,10 +11,11 @@ extern DMA_HandleTypeDef hdma_usart2_rx;
 #define RX_BUFFER_SIZE 512
 
 extern uint8_t rxBuffer[RX_BUFFER_SIZE];
-extern volatile uint16_t rxSize;
-extern volatile uint8_t rxCompleteFlag;
+extern uint16_t rxSize;
+extern uint8_t rxCompleteFlag;
 
 void USART2_Init(void);
 void USART2_SendData(uint8_t *data, uint16_t size);
+void USART2_SendString(char *str);
 
 #endif

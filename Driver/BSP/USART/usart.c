@@ -6,8 +6,8 @@ DMA_HandleTypeDef hdma_usart2_rx;    /* 声明USART2接收DMA句柄 */
 
 /* 接收缓冲区 */
 uint8_t rxBuffer[RX_BUFFER_SIZE];    /* 实际接收缓冲区 */
-volatile uint16_t rxSize = 0;        /* 实际接收到的数据长度 */
-volatile uint8_t rxCompleteFlag = 0; /* 接收完成标志 */
+uint16_t rxSize = 0;        /* 实际接收到的数据长度 */
+uint8_t rxCompleteFlag = 0; /* 接收完成标志 */
 
 /* UART + DMA + 空闲中断初始化函数 */
 void USART2_Init(void)
@@ -72,7 +72,12 @@ void USART2_Init(void)
 /* 发送数据函数 */
 void USART2_SendData(uint8_t *data, uint16_t size)
 {
-    HAL_UART_Transmit(&huart2, data, size, HAL_MAX_DELAY); /* 阻塞方式发送数据 */
+    HAL_UART_Transmit(&huart2, data, size, 1000); /* 阻塞方式发送数据 */
+}
+
+void USART2_SendString(char *str)
+{
+    HAL_UART_Transmit(&huart2, (uint8_t *)str, strlen(str), 1000);
 }
 
 /* USART2中断服务函数 */
