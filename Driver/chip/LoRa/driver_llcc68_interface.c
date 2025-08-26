@@ -1,40 +1,5 @@
-/**
- * Copyright (c) 2015 - present LibDriver All rights reserved
- *
- * The MIT License (MIT)
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *
- * @file      driver_llcc68_interface_template.c
- * @brief     driver llcc68 interface template source file
- * @version   1.0.0
- * @author    Shifeng Li
- * @date      2023-04-15
- *
- * <h3>history</h3>
- * <table>
- * <tr><th>Date        <th>Version  <th>Author      <th>Description
- * <tr><td>2023/04/15  <td>1.0      <td>Shifeng Li  <td>first upload
- * </table>
- */
-
 #include "driver_llcc68_interface.h"
+#include "gpio/gpio.h"
 
 #define CS_L (HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET))
 #define CS_H (HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET))
@@ -49,7 +14,6 @@
 uint8_t llcc68_interface_spi_init(void)
 {
     SPI_Init();
-    GPIOB0_Init();  /* 初始化LoRa芯片RST引脚, 复位 */
     GPIOB1_Init();  /* 初始化LoRa芯片BUSY引脚, 只读 */
     GPIOB2_Init();  /* 初始化LoRa芯片TxEN引脚, 写使能, 默认失能 */
     GPIOB12_Init(); /* 初始化LoRa芯片RxEN引脚, 读使能, 默认失能 */
@@ -123,7 +87,7 @@ uint8_t llcc68_interface_spi_write_read(uint8_t *in_buf, uint32_t in_len,
  */
 uint8_t llcc68_interface_reset_gpio_init(void)
 {
-    // HAL完成
+    GPIOB0_Init();  /* 初始化LoRa芯片RST引脚, 复位 */
     return 0;
 }
 
@@ -196,7 +160,7 @@ uint8_t llcc68_interface_busy_gpio_deinit(void)
  */
 uint8_t llcc68_interface_busy_gpio_read(uint8_t *value)
 {
-    *value = HAL_GPIO_ReadPin(LoRa_BUSY_GPIO_Port, LoRa_BUSY_Pin);
+    *value = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_1);
     return 0;
 }
 
