@@ -36,8 +36,8 @@
 
 #include "driver_llcc68_interface.h"
 
-#define CS_L (HAL_GPIO_WritePin(LoRa_CS_GPIO_Port,LoRa_CS_Pin,GPIO_PIN_RESET))
-#define CS_H (HAL_GPIO_WritePin(LoRa_CS_GPIO_Port,LoRa_CS_Pin,GPIO_PIN_SET))
+#define CS_L (HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET))
+#define CS_H (HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET))
 
 /**
  * @brief  interface spi bus init
@@ -48,8 +48,11 @@
  */
 uint8_t llcc68_interface_spi_init(void)
 {
-    // main方法中已经实现了初始化
-    // MX_SPI1_Init();
+    SPI_Init();
+    GPIOB0_Init();  /* 初始化LoRa芯片RST引脚, 复位 */
+    GPIOB1_Init();  /* 初始化LoRa芯片BUSY引脚, 只读 */
+    GPIOB2_Init();  /* 初始化LoRa芯片TxEN引脚, 写使能, 默认失能 */
+    GPIOB12_Init(); /* 初始化LoRa芯片RxEN引脚, 读使能, 默认失能 */
     return 0;
 }
 
@@ -149,11 +152,11 @@ uint8_t llcc68_interface_reset_gpio_write(uint8_t data)
 {
     if (data == 0)
     {
-        HAL_GPIO_WritePin(LoRa_RST_GPIO_Port, LoRa_RST_Pin, GPIO_PIN_RESET);
+        HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
     }
     else
     {
-        HAL_GPIO_WritePin(LoRa_RST_GPIO_Port, LoRa_RST_Pin, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
     }
 
     return 0;

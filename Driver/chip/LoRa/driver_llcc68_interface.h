@@ -38,7 +38,7 @@
 #define DRIVER_LLCC68_INTERFACE_H
 
 #include "driver_llcc68.h"
-#include "spi.h"
+#include "spi/spi.h"
 #include "stdarg.h"
 
 #ifdef __cplusplus
