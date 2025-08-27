@@ -91,88 +91,15 @@
 /** @brief RTC唤醒功能 - 启用RTC唤醒以降低功耗 */
 #define LLCC68_LORA_DEFAULT_RTC_WAKE_UP                 LLCC68_BOOL_TRUE                  
 
-/* ===== 函数声明 ===== */
 
-/**
- * @brief   初始化LoRa通信模块
- * @details 完成LLCC68芯片的完整初始化流程，包括：
- *          1. 初始化SPI通信接口和GPIO控制引脚
- *          2. 设置芯片工作模式和调制参数
- *          3. 配置发射功率和接收参数
- *          4. 设置中断和同步字
- *          5. 进入接收模式
- * @param   None
- * @retval  None
- * @note    此函数必须在使用其他LoRa相关函数前调用
- * @warning 确保SPI和GPIO引脚的时钟已使能
- */
 void LORA_Init(void);
 
-/**
- * @brief   进入LoRa发送模式
- * @details 配置芯片进入发送状态，设置相关GPIO控制引脚：
- *          - 拉低GPIOB1引脚（接收指示）
- *          - 拉高GPIOB2引脚（发送指示）
- *          - 配置发送相关的中断
- * @param   None
- * @retval  uint8_t 操作结果
- *          - 0: 成功进入发送模式
- *          - 1: 设置失败
- * @note    发送完成后建议调用LORA_EnterReceiveMode()恢复接收
- * @warning 发送前确保芯片已正确初始化
- */
 uint8_t LORA_EnterSendMode(void);
 
-/**
- * @brief   进入LoRa接收模式
- * @details 配置芯片进入连续接收状态，设置相关参数：
- *          - 拉低GPIOB2引脚（发送指示）
- *          - 拉高GPIOB1引脚（接收指示）
- *          - 配置接收数据包参数和IQ极性
- *          - 启动连续接收
- * @param   None
- * @retval  uint8_t 操作结果
- *          - 0: 成功进入接收模式
- *          - 1: 设置失败
- * @note    这是默认的工作模式，芯片初始化后会自动进入此模式
- * @warning 接收过程中避免频繁切换模式影响性能
- */
 uint8_t LORA_EnterReceiveMode(void);
 
-/**
- * @brief   发送LoRa数据
- * @details 通过LoRa芯片发送指定长度的数据：
- *          1. 切换到发送模式
- *          2. 配置数据包参数并发送数据
- *          3. 发送完成后返回接收模式
- * @param   sendDataBuffer 指向要发送数据的缓冲区指针
- * @param   length 要发送的数据字节数 (1-255字节)
- * @retval  uint8_t 发送结果
- *          - 0: 发送成功
- *          - 1: 发送失败
- * @note    发送完成后会自动恢复到接收模式
- * @warning 确保sendDataBuffer指向的内存区域至少有length字节的有效数据
- */
 uint8_t LORA_SendData(uint8_t *sendDataBuffer, uint16_t length);
 
-/**
- * @brief   接收LoRa数据
- * @details 处理LoRa芯片的接收中断并获取接收到的数据：
- *          1. 处理中断状态
- *          2. 检查是否有新数据
- *          3. 复制数据到用户缓冲区
- *          4. 清空内部接收缓冲区
- * @param   receiveDataBuffer 指向存储接收数据的缓冲区指针
- * @param   length 指向存储接收数据长度的变量指针
- * @retval  uint8_t 接收结果
- *          - 0: 处理成功（有无数据都返回0）
- *          - 1: 处理失败
- * @note    需要定期调用此函数以处理接收到的数据
- *         接收到的数据会自动添加字符串结束符'\0'
- * @warning 确保receiveDataBuffer有足够空间存储接收的数据（最大255字节）
- */
 uint8_t LORA_ReceiveData(uint8_t *receiveDataBuffer, uint16_t *length);
-
-
 
 #endif

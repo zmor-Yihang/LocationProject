@@ -73,6 +73,9 @@
               },
               {
                 "path": "../../Driver/BSP/spi/spi.c"
+              },
+              {
+                "path": "../../Driver/BSP/USART/usart3.c"
               }
             ],
             "folders": []
@@ -85,6 +88,9 @@
               },
               {
                 "path": "../../Driver/chip/ds3553/ds3553.c"
+              },
+              {
+                "path": "../../Driver/chip/qs100/qs100.c"
               }
             ],
             "folders": [
