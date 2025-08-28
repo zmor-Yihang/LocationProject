@@ -89,15 +89,15 @@ void DS3553_PrintInfo(void)
 {
     uint8_t tempbuffer = 0;
 
-    printf("--------------------DS3553-------------------\r\n");
+    DEBUG_Printf("--------------------DS3553-------------------\r\n");
     /* 读取并打印芯片ID */
     DS3553_ReadData(CHIP_ID, &tempbuffer, 1);
-    printf("DS3553 CHIP_ID: 0x%02X\r\n", tempbuffer);
+    DEBUG_Printf("DS3553 CHIP_ID: 0x%02X\r\n", tempbuffer);
     
     /* 读取并打印用户设置寄存器值 */
     DS3553_ReadData(USER_SET, &tempbuffer, 1);
-    printf("DS3553 Init USER_SET: 0x%02X\r\n", tempbuffer);
-    printf("---------------------------------------------\r\n");
+    DEBUG_Printf("DS3553 Init USER_SET: 0x%02X\r\n", tempbuffer);
+    DEBUG_Printf("---------------------------------------------\r\n");
 }
 
 /**

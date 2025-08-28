@@ -120,3 +120,22 @@ void GPIOB12_Init(void)
     /* 设置初始状态为低电平 */
     HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET);
 }
+
+void GPIOB13_Init(void)
+{
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+    /* 使能GPIOB时钟 */
+    __HAL_RCC_GPIOB_CLK_ENABLE();
+
+    /* 配置PB13引脚为推挽输出模式 */
+    GPIO_InitStruct.Pin = GPIO_PIN_13;            /* 选择PB13引脚 */
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;   /* 推挽输出模式 */
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH; /* 高速模式 */
+
+    /* 初始化GPIOB */
+    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+    /* 设置初始状态为低电平 */
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, GPIO_PIN_RESET);
+}

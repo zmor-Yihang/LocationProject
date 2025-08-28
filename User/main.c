@@ -4,6 +4,7 @@
 #include "at6558r/at6558r.h"
 #include "ds3553/ds3553.h"
 #include "lora/lora.h"
+#include "qs100/qs100.h"
 
 int main(void)
 {
@@ -13,14 +14,17 @@ int main(void)
     DEBUG_Init();                       /* 调试接口初始化 */
     AT6558R_Init();
     DS3553_Init();
-
-    AT6558R_PrintInfo(); /* 打印AT6558R信息 */
-    DS3553_PrintInfo();  /* 打印DS3553信息 */
     LORA_Init();         /* LoRa初始化 */
+    QS100_Init();       /* QS100初始化 */
 
+    // AT6558R_PrintInfo(); /* 打印AT6558R信息 */
+    // DS3553_PrintInfo();  /* 打印DS3553信息 */
+    // QS100_PrintInfo();   /* 打印QS100信息 */
+   
     while (1)
     {
-        LORA_SendData("Hello, LoRa!", 14);
-        HAL_Delay(1000);
+        QS100_SendData((uint8_t *)"zmor\r\n", strlen("zmor\r\n")); 
+        DEBUG_Printf("Hello World!\r\n");
+        HAL_Delay(3000);
     }
 }

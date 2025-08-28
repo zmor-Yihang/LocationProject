@@ -396,12 +396,12 @@ uint8_t LORA_SendData(uint8_t *sendDataBuffer, uint16_t length)
         LORA_EnterReceiveMode();
         return 1;
     }
-    
-    /* 发送成功，返回结果 */
-    return 0;
 
     /* 发送完成后恢复接收模式 */
     LORA_EnterReceiveMode();
+    
+    /* 发送成功，返回结果 */
+    return 0;
 }
 
 /**
