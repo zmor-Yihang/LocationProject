@@ -9,15 +9,16 @@ int main(void)
     sys_stm32_clock_init(RCC_PLL_MUL9); /* 系统时钟初始化 */
     delay_init(72);                     /* 延时函数初始化 */
     DEBUG_Init();                       /* 调试接口初始化 */
+    AT6558R_Init();
+    QS100_Init();
 
     while (1)
     {
         LOWPOWER_Wakeup();
 
-        QS100_Init();
         QS100_SendData("Hello after Wakeup", strlen("Hello after Wakeup"));
-
+        HAL_Delay(1000);
+        
         LOWPOWER_EnterLowPower();
-        HAL_Delay(10000);
     }
 }

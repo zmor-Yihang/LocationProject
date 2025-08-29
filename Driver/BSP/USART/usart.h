@@ -2,6 +2,7 @@
 #define __USART_H__
 
 #include "sys/sys.h"
+#include "string.h"
 
 /* 定义句柄 */
 extern UART_HandleTypeDef huart2;
