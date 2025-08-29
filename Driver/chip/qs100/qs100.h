@@ -7,7 +7,7 @@
 #include "Debug/debug.h"
 
 #define IP "112.125.89.8"
-#define PORT 44713
+#define PORT 47379
 #define SEQUENCE 5
 
 void QS100_Init(void);

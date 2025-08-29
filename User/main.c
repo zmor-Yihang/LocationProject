@@ -15,7 +15,7 @@ int main(void)
     while (1)
     {
         LOWPOWER_Wakeup();
-
+        HAL_Delay(1000);
         QS100_SendData("Hello after Wakeup", strlen("Hello after Wakeup"));
         HAL_Delay(1000);
         

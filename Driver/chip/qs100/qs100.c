@@ -204,8 +204,6 @@ void QS100_Init(void)
 {
     GPIOB13_Init();
     USART3_Init();
-    
-    QS100_Reset();
     QS100_SendCommand((uint8_t *)"ATE1\r\n"); /* 打开命令回显 */
 }
 
@@ -494,16 +492,15 @@ void QS100_SendData(uint8_t *data, uint16_t len)
     // 重试循环：最多尝试10次检查发送状态
     while (i < 10)
     {
-        // 警告：硬编码检查tempBuffer[19]位置的状态字符存在风险
-        // 这种方式假设响应格式固定，但实际可能因响应长度变化而失效
-        char status_char = tempBuffer[19];
-        
-        if(status_char == '1')
+        char *buffer_str = (char *)tempBuffer;
+
+        // 检查连接响应是否包含"1"，表示连接成功
+        if (strstr(buffer_str, "1") != NULL)
         {
-            // 状态字符为'1'表示发送成功
-            DEBUG_Printf("Send Data Successful\r\n");
-            break;  // 发送成功，退出重试循环
+            DEBUG_Printf("Send Data Successful!\r\n");
+            break;  // 连接成功，退出重试循环
         }
+        
         else
         {
             // 发送可能失败，等待后重新发送
