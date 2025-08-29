@@ -204,7 +204,7 @@ void QS100_Init(void)
 {
     GPIOB13_Init();
     USART3_Init();
-    QS100_Wakeup();
+    
     QS100_Reset();
     QS100_SendCommand((uint8_t *)"ATE1\r\n"); /* 打开命令回显 */
 }
@@ -226,6 +226,18 @@ void QS100_Reset(void)
         DEBUG_Printf("QS100 Reset Successful!\r\n");
         DEBUG_Printf("---------------------------------------------\r\n");
     }
+}
+
+/**
+ * @brief QS100芯片进入低功耗模式
+ * @details 发送AT+FASTOFF=0命令使QS100芯片进入低功耗模式。
+ *          在此模式下，芯片通过禁用非必要功能来降低功耗。
+ * @note 调用此函数前必须正确初始化芯片
+ * @note 从低功耗模式恢复可能需要特定的唤醒命令
+ */
+void QS100_EnterLowPowerMode(void)
+{
+    QS100_SendCommand((uint8_t *)"AT+FASTOFF=0\r\n"); // 进入低功耗模式
 }
 
 /**
@@ -536,6 +548,8 @@ void QS100_SendData(uint8_t *data, uint16_t len)
         // 未关闭的套接字可能会占用系统资源
     }
     
-    // 函数执行完毕
-    // 建议：添加返回值指示整个数据发送流程的成功/失败状态
+    HAL_Delay(1000);  // 最后等待1秒，确保关闭客户端完成
 }
+
+
+

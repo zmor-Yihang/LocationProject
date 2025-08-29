@@ -55,6 +55,15 @@
               },
               {
                 "path": "../../Driver/HAL_Driver/Src/stm32f1xx_hal_spi.c"
+              },
+              {
+                "path": "../../Driver/HAL_Driver/Src/stm32f1xx_hal_rtc.c"
+              },
+              {
+                "path": "../../Driver/HAL_Driver/Src/stm32f1xx_hal_rtc_ex.c"
+              },
+              {
+                "path": "../../Driver/HAL_Driver/Src/stm32f1xx_hal_pwr.c"
               }
             ],
             "folders": []
@@ -76,6 +85,12 @@
               },
               {
                 "path": "../../Driver/BSP/USART/usart3.c"
+              },
+              {
+                "path": "../../Driver/BSP/RTC/rtc.c"
+              },
+              {
+                "path": "../../Driver/BSP/PWR/pwr.c"
               }
             ],
             "folders": []
@@ -154,6 +169,15 @@
           },
           {
             "path": "../../README/README.md"
+          }
+        ],
+        "folders": []
+      },
+      {
+        "name": "APP",
+        "files": [
+          {
+            "path": "../../APP/lowPower/lowPower.c"
           }
         ],
         "folders": []
@@ -314,7 +338,8 @@
           "../../Driver/HAL_Driver/Inc",
           ".cmsis/include",
           "../RTE/_LocPro",
-          "../../Driver/chip"
+          "../../Driver/chip",
+          "../../APP"
         ],
         "libList": [],
         "defineList": [

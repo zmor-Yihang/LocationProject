@@ -3,7 +3,7 @@
 
 #include "sys/sys.h"
 
-void GPIOB3_Init(void);     /*  GPS芯片通信使能引脚 */
+void GPIOB3_Init(void);     /*  AT6558R芯片通信使能引脚 */
 
 void GPIOB5_Init(void);     /*  DS3553计步芯片片选引脚 */
 

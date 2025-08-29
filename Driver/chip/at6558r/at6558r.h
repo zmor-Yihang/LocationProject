@@ -21,4 +21,8 @@ void AT6558R_Init(void);
 void AT6558R_PrintInfo(void);
 uint8_t AT6558R_VerifyIntegrityOfGPSData(void);
 
+void AT6558R_EnterLowPowerMode(void);
+
+void AT6558R_Wakeup(void);
+
 #endif

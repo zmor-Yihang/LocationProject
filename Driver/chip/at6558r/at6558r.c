@@ -148,3 +148,14 @@ uint8_t AT6558R_VerifyIntegrityOfGPSData(void)
     
     return 0;         /* 数据不完整，缺少关键的NMEA句子 */
 }
+
+void AT6558R_EnterLowPowerMode(void)
+{
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, GPIO_PIN_RESET); // 拉低GPIOB3引脚，进入低功耗模式
+}
+
+void AT6558R_Wakeup(void)
+{
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, GPIO_PIN_SET); // 拉高GPIOB3引脚，唤醒模块
+    HAL_Delay(1000); // 等待100ms，确保模块完全唤醒
+}

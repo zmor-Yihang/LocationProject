@@ -7,12 +7,14 @@
 #include "Debug/debug.h"
 
 #define IP "112.125.89.8"
-#define PORT 46596
+#define PORT 44713
 #define SEQUENCE 5
 
 void QS100_Init(void);
 
 void QS100_Reset(void);
+
+void QS100_EnterLowPowerMode(void);
 
 void QS100_Wakeup(void);
 
