@@ -7,7 +7,7 @@
 #include "rtc/rtc.h"
 #include "pwr/pwr.h"
 
-void LOWPOWER_EnterLowPower(void);
+void LOWPOWER_EnterLowPower(uint32_t seconds);
 void LOWPOWER_Wakeup(void);
 
 #endif

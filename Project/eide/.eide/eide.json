@@ -102,10 +102,10 @@
                 "path": "../../Driver/chip/at6558r/at6558r.c"
               },
               {
-                "path": "../../Driver/chip/ds3553/ds3553.c"
+                "path": "../../Driver/chip/qs100/qs100.c"
               },
               {
-                "path": "../../Driver/chip/qs100/qs100.c"
+                "path": "../../Driver/chip/ds3553/ds3553.c"
               }
             ],
             "folders": [
@@ -153,9 +153,6 @@
             "path": "../../User/stm32f1xx_it.c"
           },
           {
-            "path": "../../User/user_config.h"
-          },
-          {
             "path": "../../Start/system_stm32f1xx.c"
           }
         ],
@@ -178,6 +175,9 @@
         "files": [
           {
             "path": "../../APP/lowPower/lowPower.c"
+          },
+          {
+            "path": "../../APP/location/location.c"
           }
         ],
         "folders": []

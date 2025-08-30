@@ -1,7 +1,7 @@
 #include "delay/delay.h"
 #include "debug/debug.h"
 #include "sys/sys.h"
-#include "lowPower/lowPower.h"
+#include "location/location.h"
 
 int main(void)
 {
@@ -9,16 +9,11 @@ int main(void)
     sys_stm32_clock_init(RCC_PLL_MUL9); /* 系统时钟初始化 */
     delay_init(72);                     /* 延时函数初始化 */
     DEBUG_Init();                       /* 调试接口初始化 */
-    AT6558R_Init();
-    QS100_Init();
+
+    LOCATION_SendLocationData(20);      // 发送定位数据并进入低功耗模式，20秒后唤醒(20s发送一次)
 
     while (1)
     {
-        LOWPOWER_Wakeup();
-        HAL_Delay(1000);
-        QS100_SendData("Hello after Wakeup", strlen("Hello after Wakeup"));
-        HAL_Delay(1000);
-        
-        LOWPOWER_EnterLowPower();
+
     }
 }

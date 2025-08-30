@@ -1,12 +1,12 @@
 #include "lowPower/lowPower.h"
 
-void LOWPOWER_EnterLowPower(void)
+void LOWPOWER_EnterLowPower(uint32_t seconds)
 {
     QS100_EnterLowPowerMode();
     AT6558R_EnterLowPowerMode();
     /*  */
     RTC_Init();
-    RTC_SetAlarm(10); // 设置20秒后唤醒
+    RTC_SetAlarm(seconds); // 设置20秒后唤醒
 
     __HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU); // 清除唤醒标志
     __HAL_PWR_CLEAR_FLAG(PWR_FLAG_SB); // 清除待机标志
