@@ -1,28 +1,36 @@
-#include "location.h"
-
-LocationDataTypeDef locationData = {0};
-
-
 /**
- * @brief 尝试获取并验证来自 AT6558R 的 GPS 数据。
- * @details
- * 函数最多循环 10 次，每次循环按以下顺序执行：
- *  - 调用 AT6558R_VerifyIntegrityOfGPSData() 检查是否接收到完整的 GPS 数据（完整性检测）。
- *  - 若完整性检测通过，打印接收到的 rxBuffer 内容，然后调用
- *    AT6558R_VerifyValidityOfGPSData() 进行有效性验证（例如定位是否有效、字段是否合法等）。
- *  - 若有效性检测通过，立即返回 1 表示成功。
- *  - 若任一检测失败，输出调试信息并继续重试，直至达到最大尝试次数。
+ * @file location.c
+ * @brief 位置与传感器数据采集与发送逻辑实现
  *
- * 注意：
- *  - 该函数依赖外部函数 AT6558R_VerifyIntegrityOfGPSData()、AT6558R_VerifyValidityOfGPSData()
- *    以及全局接收缓冲区 rxBuffer。
- *  - 使用 DEBUG_Printf 输出诊断信息以便调试。
- *  - 为避免无限阻塞，函数在达到 10 次尝试后会返回失败。
- *
- * @retval 1 获取到完整且有效的 GPS 数据（成功）。
- * @retval 0 在 10 次尝试后仍未获取到完整且有效的 GPS 数据（失败）。
+ * 本文件负责从 AT6558R 模块获取 GPS 数据、从 DS3553 获取步数，并将
+ * 解析后的位置信息与步数打包为 JSON 字符串，通过 QS100 模块发送。
  */
 
+#include "location.h"
+
+/**
+ * @brief 全局位置数据结构实例
+ *
+ * 用于在模块内部保存 ID、时间、坐标、步数以及生成的 JSON 数据。
+ * 初始化为全零。
+ */
+LocationDataTypeDef locationData = {0};
+
+/**
+ * @brief 尝试从 AT6558R 获取并验证 GPS 数据
+ *
+ * 该函数会循环最多 10 次尝试读取 GPS 数据并进行两步检查：完整性检查
+ * (AT6558R_VerifyIntegrityOfGPSData) 和有效性检查
+ * (AT6558R_VerifyValidityOfGPSData)。当两步检查均通过时返回 1，否则在
+ * 达到最大重试次数后返回 0。
+ *
+ * 依赖：全局接收缓冲区 rxBuffer 以及外部函数 AT6558R_VerifyIntegrityOfGPSData
+ * 和 AT6558R_VerifyValidityOfGPSData。函数内部通过 DEBUG_Printf 输出
+ * 调试信息，并在每次失败后调用 HAL_Delay(1000) 等待 1 秒后重试，避免
+ * 短时间内高频请求。
+ *
+ * @return uint8_t 1 表示获取到完整且有效的 GPS 数据；0 表示获取失败（重试 10 次后）
+ */
 static uint8_t LOCATION_GetGPSData(void)
 {
     uint8_t i = 0;
@@ -59,6 +67,15 @@ static uint8_t LOCATION_GetGPSData(void)
     return 0; /* 获取完整且有效的GPS数据失败 */
 }
 
+
+/**
+ * @brief 读取并更新步数数据
+ *
+ * 本函数负责初始化步数传感器 DS3553，并读取当前步数计数，存入
+ * 全局变量 locationData.steps 中，同时打印当前步数以便调试。
+ *
+ * 无返回值，若传感器初始化或读取失败，应由底层函数通过调试信息提示。
+ */
 static void LOCATION_GetStepData(void)
 {
     DS3553_Init();
@@ -66,6 +83,19 @@ static void LOCATION_GetStepData(void)
     DEBUG_Printf("Current Step Count: %lu\r\n", locationData.steps);
 }
 
+
+/**
+ * @brief 处理并打包位置与步数信息为 JSON
+ *
+ * 先调用 AT6558R_ExtractGNRMCData() 更新全局的 locationData（时间、坐标等）
+ * 然后使用 cJSON 构造一个包含 ID、datetime、latitude、lat_dir、longitude、
+ * lon_dir、steps 的 JSON 对象，将其序列化为紧凑字符串并复制到
+ * locationData.json_data 中。
+ *
+ * 注意：cJSON_PrintUnformatted 返回分配的字符串，函数内部调用 cJSON_free
+ * 释放该内存。复制时应确保 destination 有足够空间以避免溢出（调用者
+ * 需在设计时保证）。
+ */
 static void LOCATION_ProcessData(void)
 {
     AT6558R_ExtractGNRMCData();
@@ -106,6 +136,20 @@ static void LOCATION_ProcessData(void)
     cJSON_free(json_str);
 }
 
+
+/**
+ * @brief 初始化外设并发送位置信息
+ *
+ * @param seconds 进入低功耗模式前的延迟（秒），调用 LOWPOWER_EnterLowPower(seconds)
+ *
+ * 函数流程：
+ *  - 初始化 AT6558R（GPS）与 QS100（通信）模块
+ *  - 从低功耗模式唤醒
+ *  - 尝试获取并验证 GPS 数据（调用 LOCATION_GetGPSData）
+ *    - 若成功：获取步数、处理数据为 JSON 并通过 QS100_SendData 发送
+ *    - 若失败：发送错误信息字符串
+ *  - 最后调用 LOWPOWER_EnterLowPower(seconds) 返回低功耗状态
+ */
 void LOCATION_SendLocationData(uint32_t seconds)
 {
     AT6558R_Init();
