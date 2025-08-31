@@ -1,9 +1,11 @@
 #ifndef __AT6558R_H__
 #define __AT6558R_H__
 
+#include "user_config.h"
 #include "debug/debug.h"
 #include "usart/usart.h"
 #include "gpio/gpio.h"
+#include <stdlib.h>
 
 #define AT6558R_FREQUENCY_1Hz "PCAS02,1000"           /* 频率设置：1Hz */
 #define AT6558R_FREQUENCY_2Hz "PCAS02,500"            /* 频率设置：2Hz */
@@ -18,8 +20,14 @@
 #define AT6558R_Info_UpgradeCode "PCAS06,5"           /* 升级码信息 */
 
 void AT6558R_Init(void);
+
 void AT6558R_PrintInfo(void);
+
 uint8_t AT6558R_VerifyIntegrityOfGPSData(void);
+
+uint8_t  AT6558R_VerifyValidityOfGPSData(void);
+
+void AT6558R_ExtractGNRMCData(void);
 
 void AT6558R_EnterLowPowerMode(void);
 

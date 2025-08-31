@@ -21,10 +21,11 @@ extern I2C_HandleTypeDef hi2c1;
 extern uint32_t countOfStep;
 
 void DS3553_Init(void);
+
 void DS3553_PrintInfo(void);
-void DS3553_WriteData(uint8_t addr, uint8_t *bufferOfSend, uint8_t len);
-void DS3553_ReadData(uint8_t addr, uint8_t *bufferOfRead, uint8_t len);
+
 uint32_t DS3553_GetStepCount(void);
+
 void DS3553_Reset(void);
 
 #endif

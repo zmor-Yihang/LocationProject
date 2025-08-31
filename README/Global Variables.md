@@ -5,3 +5,7 @@ GPS定位模块
 
 计步模块
 4. **countOfStep：**存储步数的全局变量
+
+宏定义
+ENABLE_GNRMC_DEMO   GPS数据示例开启宏
+DEBUG_ENABLE        DEBUG_Printf函数开启宏

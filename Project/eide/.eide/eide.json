@@ -139,6 +139,9 @@
           },
           {
             "path": "../../System/Debug/debug.c"
+          },
+          {
+            "path": "../../System/cJSON/cJSON.c"
           }
         ],
         "folders": []
@@ -154,6 +157,9 @@
           },
           {
             "path": "../../Start/system_stm32f1xx.c"
+          },
+          {
+            "path": "../../User/user_config.h"
           }
         ],
         "folders": []

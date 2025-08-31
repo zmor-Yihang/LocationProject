@@ -204,6 +204,7 @@ void QS100_Init(void)
 {
     GPIOB13_Init();
     USART3_Init();
+    QS100_Wakeup();
     QS100_SendCommand((uint8_t *)"ATE1\r\n"); /* 打开命令回显 */
 }
 

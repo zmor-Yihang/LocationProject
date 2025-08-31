@@ -7,9 +7,6 @@
 
 void DEBUG_Init(void);
 
-/* 使能调试接口 */
-#define DEBUG_ENABLE
-
 /* 宏定义控制调试开关 */
 #ifdef DEBUG_ENABLE
     #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : \
